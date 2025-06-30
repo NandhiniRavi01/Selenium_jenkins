@@ -3,6 +3,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import org.openqa.selenium.chrome.ChromeOptions;
+import java.nio.file.Files;
+import java.io.File;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,12 +18,20 @@ import org.testng.annotations.Test;
 public class Login_Function {
 	  ChromeDriver driver;
 
-	    @BeforeClass
-	    public void setUp() {
-	        driver = new ChromeDriver();
-	        driver.manage().window().maximize();
-	    }
-	
+	  @BeforeClass
+public void setUp() throws IOException {
+    ChromeOptions options = new ChromeOptions();
+
+    // 🛠️ Use a temporary user-data-dir to avoid lock issue
+    File tempProfile = Files.createTempDirectory("chrome-profile").toFile();
+    options.addArguments("--user-data-dir=" + tempProfile.getAbsolutePath());
+
+    // (Optional) Run headless if Jenkins has no GUI
+    // options.addArguments("--headless", "--disable-gpu");
+
+    driver = new ChromeDriver(options);
+    driver.manage().window().maximize();
+}
 	@Test(priority = 1)
 	public  void login() throws InterruptedException, IOException {
 		Properties properties=new Properties();
