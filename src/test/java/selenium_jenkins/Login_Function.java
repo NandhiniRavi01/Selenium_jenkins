@@ -1,115 +1,115 @@
 package selenium_jenkins;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
-import org.openqa.selenium.chrome.ChromeOptions;
-import java.nio.file.Files;
 import java.io.File;
+import java.time.Instant;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class Login_Function {
-	  ChromeDriver driver;
+
+    ChromeDriver driver;
     File tempProfile;
-	  @BeforeClass
-public void setUp() throws IOException {
-    ChromeOptions options = new ChromeOptions();
 
-    // 🛠️ Use a temporary user-data-dir to avoid lock issue
-    File tempProfile = Files.createTempDirectory("chrome-profile").toFile();
-    options.addArguments("--user-data-dir=" + tempProfile.getAbsolutePath());
+    @BeforeClass
+    public void setUp() throws IOException {
+        ChromeOptions options = new ChromeOptions();
 
-    // (Optional) Run headless if Jenkins has no GUI
-    // options.addArguments("--headless", "--disable-gpu");
+        // ✅ Create unique temp profile directory
+        String timestamp = String.valueOf(Instant.now().toEpochMilli());
+        tempProfile = new File(System.getProperty("java.io.tmpdir"), "chrome-profile-" + timestamp);
+        tempProfile.mkdirs(); // Ensure directory is created
 
-    driver = new ChromeDriver(options);
-    driver.manage().window().maximize();
-}
-	@Test(priority = 1)
-	public  void login() throws InterruptedException, IOException {
-		/*Properties properties=new Properties();
-		FileInputStream file = new FileInputStream("/src/test/java/selenium_jenkins/configurationProperties");
+        options.addArguments("--user-data-dir=" + tempProfile.getAbsolutePath());
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-		properties.load(file);*/
-		
-		driver.get("https://www.amazon.in/");
-		driver.findElement(By.xpath("//a[@href=\"https://www.amazon.in/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2F%3Fref_%3Dnav_ya_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=inflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0\"]")).click();
-		WebElement username=driver.findElement(By.id("ap_email_login"));
-		//username.sendKeys(properties.getProperty("username"));
-		username.sendKeys("nandhiniravi1402@gmail.com");
-		driver.findElement(By.xpath("//input[@class=\"a-button-input\"]")).click();
-		WebElement password=driver.findElement(By.id("ap_password"));
-		//password.sendKeys(properties.getProperty("password"));
-		password.sendKeys("Nandhu@01");
-		driver.findElement(By.id("signInSubmit")).click();
-		Thread.sleep(3000);
-	}
-		@Test(priority = 2)
-		public  void Searchelement() throws InterruptedException {
-			
-		WebElement Search=driver.findElement(By.id("twotabsearchtextbox"));
-		Search.sendKeys("electric cycle");
-		driver.findElement(By.id("nav-search-submit-button")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("//span[contains(text(), 'EMotorad X2 Unisex Mountain Electric Cycle')]")).click();
-		
-		 ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-		    driver.switchTo().window(tabs.get(1)); // Switch to product page tab
-		    Thread.sleep(3000);
-		
-	}
-		@Test(priority = 3)
-		public  void AddCart() throws InterruptedException {
-			
-			
-			driver.findElement(By.xpath("//span[@class=\"a-button a-button-dropdown\"]")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.id("quantity_25")).click();
-			Thread.sleep(2000);
-		driver.findElement(By.id("add-to-cart-button")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("//span[contains(text(), 'EMotorad X2 Unisex Mountain Electric Cycle')]")).click();
-		Thread.sleep(3000);
-		
-		
-		
-	}
-		@Test(priority = 4)
-		public  void GoCart() throws InterruptedException {
-			
-			driver.findElement(By.xpath("//a[contains(@href, \"/cart\") and @class=\"a-button-text\"]")).click();
-			Thread.sleep(3000);
-			driver.findElement(By.xpath("//input[@name=\"proceedToRetailCheckout\"]")).click();
-			Thread.sleep(3000);
-		}	
-		@AfterClass
-public void CloseWebsite() throws IOException {
-    if (driver != null) {
-        driver.quit();
+        // 🔄 Optional: enable headless mode for Jenkins with no GUI
+        // options.addArguments("--headless=new", "--disable-gpu");
+
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
     }
-    if (tempProfile != null && tempProfile.exists()) {
-        deleteDirectory(tempProfile);
-    }
-}
 
-// Utility to delete temp profile directory
-private void deleteDirectory(File file) {
-    if (file.isDirectory()) {
-        for (File sub : file.listFiles()) {
-            deleteDirectory(sub);
+    @Test(priority = 1)
+    public void login() throws InterruptedException {
+        driver.get("https://www.amazon.in/");
+        driver.findElement(By.xpath("//a[contains(@href,'signin')]")).click();
+        Thread.sleep(2000);
+
+        WebElement username = driver.findElement(By.id("ap_email"));
+        username.sendKeys("nandhiniravi1402@gmail.com");
+
+        driver.findElement(By.id("continue")).click();
+        Thread.sleep(1000);
+
+        WebElement password = driver.findElement(By.id("ap_password"));
+        password.sendKeys("Nandhu@01");
+
+        driver.findElement(By.id("signInSubmit")).click();
+        Thread.sleep(3000);
+    }
+
+    @Test(priority = 2)
+    public void Searchelement() throws InterruptedException {
+        WebElement search = driver.findElement(By.id("twotabsearchtextbox"));
+        search.sendKeys("electric cycle");
+        driver.findElement(By.id("nav-search-submit-button")).click();
+        Thread.sleep(2000);
+
+        driver.findElement(By.xpath("//span[contains(text(), 'EMotorad X2 Unisex Mountain Electric Cycle')]")).click();
+
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        Thread.sleep(3000);
+    }
+
+    @Test(priority = 3)
+    public void AddCart() throws InterruptedException {
+        driver.findElement(By.xpath("//span[@class='a-button a-button-dropdown']")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.id("quantity_25")).click();
+        Thread.sleep(2000);
+
+        driver.findElement(By.id("add-to-cart-button")).click();
+        Thread.sleep(2000);
+    }
+
+    @Test(priority = 4)
+    public void GoCart() throws InterruptedException {
+        driver.findElement(By.id("nav-cart")).click();
+        Thread.sleep(3000);
+        driver.findElement(By.name("proceedToRetailCheckout")).click();
+        Thread.sleep(3000);
+    }
+
+    @AfterClass
+    public void CloseWebsite() throws IOException {
+        if (driver != null) {
+            driver.quit();
         }
+
+        // 🧹 Clean up temp profile directory
+        deleteDir(tempProfile);
     }
-    file.delete();
+
+    // 🧽 Recursively delete the temporary directory
+    private void deleteDir(File dir) {
+        if (dir == null || !dir.exists()) return;
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()) {
+                deleteDir(file);
+            } else {
+                file.delete();
+            }
+        }
+        dir.delete();
+    }
 }
-
-	
-}
-
-
