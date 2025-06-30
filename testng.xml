@@ -3,7 +3,7 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
-      <class name=".Login_Function"/>
+      <class name="selenium_jenkins.Login_Function"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
