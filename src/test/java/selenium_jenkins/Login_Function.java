@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 
 public class Login_Function {
 	  ChromeDriver driver;
-
+    File tempProfile;
 	  @BeforeClass
 public void setUp() throws IOException {
     ChromeOptions options = new ChromeOptions();
@@ -89,10 +89,26 @@ public void setUp() throws IOException {
 			driver.findElement(By.xpath("//input[@name=\"proceedToRetailCheckout\"]")).click();
 			Thread.sleep(3000);
 		}	
-		 @AfterClass
-		    public void CloseWebsite() {
-		        driver.quit();
-		    }
+		@AfterClass
+public void CloseWebsite() throws IOException {
+    if (driver != null) {
+        driver.quit();
+    }
+    if (tempProfile != null && tempProfile.exists()) {
+        deleteDirectory(tempProfile);
+    }
+}
+
+// Utility to delete temp profile directory
+private void deleteDirectory(File file) {
+    if (file.isDirectory()) {
+        for (File sub : file.listFiles()) {
+            deleteDirectory(sub);
+        }
+    }
+    file.delete();
+}
+
 	
 }
 
