@@ -41,19 +41,13 @@ public void login() throws InterruptedException {
 
     // Wait for email field
     WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email_login")));
-    username.sendKeys("nandhiniravi1402@gmail.com");
-
-    driver.findElement(By.id("continue")).click();
-
-    // Wait for password field
-    WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
-    password.sendKeys("Nandhu@01");
-
-    driver.findElement(By.id("signInSubmit")).click();
-
-    Thread.sleep(3000); // Temporary, replace with a wait if needed
+   username.sendKeys(properties.getProperty("username"));
+		driver.findElement(By.xpath("//input[@class=\"a-button-input\"]")).click();
+		WebElement password=driver.findElement(By.id("ap_password"));
+		password.sendKeys(properties.getProperty("password"));
+		driver.findElement(By.id("signInSubmit")).click();
+		Thread.sleep(3000);
 }
-
    /* @Test(priority = 2)
     public void Searchelement() {
         WebElement search = wait.until(ExpectedConditions.elementToBeClickable(By.id("twotabsearchtextbox")));
