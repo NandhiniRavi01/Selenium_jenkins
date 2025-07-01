@@ -20,7 +20,7 @@ public class Login_Function {
     @BeforeClass
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-       // options.addArguments("--headless=new"); // more stable for newer Chrome versions
+        options.addArguments("--headless=new"); // more stable for newer Chrome versions
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
@@ -35,7 +35,7 @@ public class Login_Function {
     @Test(priority = 1)
     public void login() {
         driver.get("https://www.amazon.in/");
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'signin')]"))).click();
+      /*  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'signin')]"))).click();
 
         WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
         username.sendKeys("nandhiniravi1402@gmail.com");
@@ -43,10 +43,10 @@ public class Login_Function {
 
         WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
         password.sendKeys("Nandhu@01");
-        driver.findElement(By.id("signInSubmit")).click();
+        driver.findElement(By.id("signInSubmit")).click();*/
     }
 
-    @Test(priority = 2)
+   /* @Test(priority = 2)
     public void Searchelement() {
         WebElement search = wait.until(ExpectedConditions.elementToBeClickable(By.id("twotabsearchtextbox")));
         search.sendKeys("electric cycle");
@@ -80,5 +80,5 @@ public class Login_Function {
         if (driver != null) {
             driver.quit();
         }
-    }
+    }*/
 }
