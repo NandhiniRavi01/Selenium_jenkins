@@ -20,7 +20,7 @@ public class Login_Function {
     @BeforeClass
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new"); // more stable for newer Chrome versions
+       // options.addArguments("--headless=new"); // more stable for newer Chrome versions
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
