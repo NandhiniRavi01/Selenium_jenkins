@@ -41,10 +41,10 @@ public void login() throws InterruptedException {
 
     // Wait for email field
     WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email_login")));
-   username.sendKeys(properties.getProperty("username"));
+   username.sendKeys("nandhiniravi1402@gmail.com");
 		driver.findElement(By.xpath("//input[@class=\"a-button-input\"]")).click();
 		WebElement password=driver.findElement(By.id("ap_password"));
-		password.sendKeys(properties.getProperty("password"));
+		password.sendKeys("Nandhu@01");
 		driver.findElement(By.id("signInSubmit")).click();
 		Thread.sleep(3000);
 }
