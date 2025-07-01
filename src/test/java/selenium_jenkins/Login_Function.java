@@ -35,7 +35,7 @@ public class Login_Function {
     @Test(priority = 1)
     public void login() {
         driver.get("https://www.amazon.in/");
-      /*  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'signin')]"))).click();
+       wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'signin')]"))).click();
 
         WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
         username.sendKeys("nandhiniravi1402@gmail.com");
@@ -43,7 +43,7 @@ public class Login_Function {
 
         WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
         password.sendKeys("Nandhu@01");
-        driver.findElement(By.id("signInSubmit")).click();*/
+        driver.findElement(By.id("signInSubmit")).click();
     }
 
    /* @Test(priority = 2)
