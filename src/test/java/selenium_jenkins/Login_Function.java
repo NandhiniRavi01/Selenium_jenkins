@@ -15,18 +15,16 @@ public class Login_Function {
 
     @BeforeClass
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless"); // Run in headless mode
+    options.addArguments("--no-sandbox"); // Required for some Linux environments
+    options.addArguments("--disable-dev-shm-usage"); // Prevents crashes
+    options.addArguments("--disable-gpu");
+    options.addArguments("--remote-allow-origins=*");
 
-        // ✅ These arguments make Chrome work safely in Jenkins/Linux
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        // Uncomment below if running Jenkins on headless server (no display)
-        // options.addArguments("--headless=new");
-        // options.addArguments("--disable-gpu");
-
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-    }
+    driver = new ChromeDriver(options);
+    driver.manage().window().maximize();
+}
 
     @Test(priority = 1)
     public void login() throws InterruptedException {
