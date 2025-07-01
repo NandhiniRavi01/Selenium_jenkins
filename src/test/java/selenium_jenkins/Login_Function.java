@@ -32,19 +32,27 @@ public class Login_Function {
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
-    @Test(priority = 1)
-    public void login() {
-        driver.get("https://www.amazon.in/");
-       wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'signin')]"))).click();
+   @Test(priority = 1)
+public void login() throws InterruptedException {
+    driver.get("https://www.amazon.in/");
+    
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'signin')]"))).click();
 
-        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
-        username.sendKeys("nandhiniravi1402@gmail.com");
-        driver.findElement(By.id("continue")).click();
+    // Wait for email field
+    WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
+    username.sendKeys("nandhiniravi1402@gmail.com");
 
-        WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
-        password.sendKeys("Nandhu@01");
-        driver.findElement(By.id("signInSubmit")).click();
-    }
+    driver.findElement(By.id("continue")).click();
+
+    // Wait for password field
+    WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
+    password.sendKeys("Nandhu@01");
+
+    driver.findElement(By.id("signInSubmit")).click();
+
+    Thread.sleep(3000); // Temporary, replace with a wait if needed
+}
 
    /* @Test(priority = 2)
     public void Searchelement() {
